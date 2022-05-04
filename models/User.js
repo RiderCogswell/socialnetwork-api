@@ -2,8 +2,8 @@ const { Schema, model } = require('mongoose');
 const dateFormat = require('../utils/dateFormat');
 
 // since we are using NoSQL, we don't have to define the fields, but for clarity and usability we should regulate what the data will look like
-const PizzaSchema = new Schema({
-    pizzaName: {
+const UserSchema = new Schema({
+    userName: {
         type: String,
         required: true,
         trim: true
@@ -28,11 +28,11 @@ const PizzaSchema = new Schema({
     },
     // or we could specify the type as array
     toppings: [],
-    comments: [
+    thoughts: [
         {
             type: Schema.Types.ObjectId,
             // to Mongoose what 'references' is to Sequelize, tell model what documents to search to find in the comments
-            ref: 'Comment'
+            ref: 'Thought'
         }
     ]
 },
@@ -48,13 +48,13 @@ const PizzaSchema = new Schema({
 );
 
 // get total count of comments and replies on retrieval 
-PizzaSchema.virtual('commentCount').get(function() {
+UserSchema.virtual('thoughtCount').get(function() {
     // reduce takes two params, an (accumalator, currentValue), revising the total as it gains more information (similar to .map() fuunction in the way that)
-    return this.comments.reduce((total, comment) => total + comment.replies.length + 1, 0)
+    return this.thoughts.reduce((total, thought) => total + thought.replies.length + 1, 0)
 })
 
 // create the pizza model using the pizza schema
-const Pizza = model('Pizza', PizzaSchema);
+const User = model('User', UserSchema);
 
 // export the Pizza model
-module.exports = Pizza
+module.exports = User;

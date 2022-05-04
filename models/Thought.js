@@ -31,7 +31,7 @@ const ReplySchema = new Schema (
     }
 ); 
 
-const CommentSchema = new Schema (
+const ThoughtSchema = new Schema (
     {
         writtenBy: {
             type: String,
@@ -60,11 +60,11 @@ const CommentSchema = new Schema (
 );
 
 // set up a virtual that keeps track of comments replies
-CommentSchema.virtual('replyCount').get(function() {
+ThoughtSchema.virtual('replyCount').get(function() {
     return this.replies.length;
 })
 
 // create comment model using the comment schema 
-const Comment = model('Comment', CommentSchema) 
+const Thought = model('Thought', ThoughtSchema) 
 
-module.exports = Comment;
+module.exports = Thought;

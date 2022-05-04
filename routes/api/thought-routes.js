@@ -1,25 +1,25 @@
 const router = require('express').Router();
 const { 
-    addComment,
+    addThought,
     addReply,
-    removeComment,
+    removeThought,
     removeReply
-} = require('../../controllers/comment-controller');
+} = require('../../controllers/thought-controller');
 
 // /api/comments/:<pizzaId>
 router
-    .route('/:pizzaId')
-    .post(addComment);
+    .route('/:userId')
+    .post(addThought);
 
 // /api/comments/:<pizzaId/:<commentId> *** WE NEED TWO PARAMS BECAUSE WE NEED TO KNOW WHICH PIZZA THAT COMMENT CAME FORM
 router
-    .route('/:pizzaId/:commentId')
+    .route('/:userId/:thoughtId')
     .put(addReply)
-    .delete(removeComment);
+    .delete(removeThought);
 
-// /api/comments/:pizzaId/:commentId/:replyId
+// /api/thoughts/:userId/:thoughtId/:replyId
 router
-    .route('/:pizzaId/:commentId/:replyId')
+    .route('/:userId/:thoughtId/:replyId')
     .delete(removeReply);
 
 module.exports = router;
