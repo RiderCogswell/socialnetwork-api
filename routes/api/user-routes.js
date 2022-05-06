@@ -17,7 +17,7 @@ router
 
 // set up GET one, PUT, and DELETE at /api/pizza/:id
 router
-    .route('/:id')
+    .route('/:userid')
     .get(getUserById)
     .put(updateUser)
     .delete(deleteUser);

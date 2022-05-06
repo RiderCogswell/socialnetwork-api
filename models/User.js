@@ -1,17 +1,24 @@
 const { Schema, model } = require('mongoose');
 const dateFormat = require('../utils/dateFormat');
+const validateEmail = function(email) {
+    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return regex.test(email)
+}
 
 // since we are using NoSQL, we don't have to define the fields, but for clarity and usability we should regulate what the data will look like
 const UserSchema = new Schema({
     userName: {
         type: String,
         required: true,
+        unique: true,
         trim: true
     },
-    createdBy: {
+    email: {
         type: String,
         required: true,
-        trim: true
+        unique: true,
+        trim: true,
+        validate: [validateEmail, 'Please enter a valid Email address!']
     },
     createdAt: {
         type: Date, 
@@ -19,22 +26,21 @@ const UserSchema = new Schema({
         // 'getter' to transform the data using the dateFormat func before it gets to the controller
         get: (createdAtVal) => dateFormat(createdAtVal)
     },
-    size: {
-        type: String,
-        required: true,
-        // stands for enumerable, works likea for...in... loop to iterate through object and enforce only stated vars
-        enum: ['Personal', 'Small', 'Medium', 'Large', 'Extra Large'],
-        default: 'Large'
-    },
-    // or we could specify the type as array
-    toppings: [],
     thoughts: [
         {
             type: Schema.Types.ObjectId,
             // to Mongoose what 'references' is to Sequelize, tell model what documents to search to find in the comments
             ref: 'Thought'
         }
+    ],
+    // or we could specify the type as array
+    friends: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }
     ]
+
 },
 {
     // when adding virtuals or getters we must ensure that we use them by adding a boolean value to the toJSON field
@@ -48,9 +54,9 @@ const UserSchema = new Schema({
 );
 
 // get total count of comments and replies on retrieval 
-UserSchema.virtual('thoughtCount').get(function() {
+UserSchema.virtual('friendCount').get(function() {
     // reduce takes two params, an (accumalator, currentValue), revising the total as it gains more information (similar to .map() fuunction in the way that)
-    return this.thoughts.reduce((total, thought) => total + thought.replies.length + 1, 0)
+    return this.friends.reduce((total, friend) => total + friend.length + 1, 0)
 })
 
 // create the pizza model using the pizza schema

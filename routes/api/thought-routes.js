@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const { 
     addThought,
-    addReply,
+    addReaction,
     removeThought,
-    removeReply
+    removeReaction
 } = require('../../controllers/thought-controller');
 
 // /api/comments/:<pizzaId>
@@ -14,12 +14,12 @@ router
 // /api/comments/:<pizzaId/:<commentId> *** WE NEED TWO PARAMS BECAUSE WE NEED TO KNOW WHICH PIZZA THAT COMMENT CAME FORM
 router
     .route('/:userId/:thoughtId')
-    .put(addReply)
+    .put(addReaction)
     .delete(removeThought);
 
 // /api/thoughts/:userId/:thoughtId/:replyId
 router
-    .route('/:userId/:thoughtId/:replyId')
-    .delete(removeReply);
+    .route('/:userId/:thoughtId/:reactionId')
+    .delete(removeReaction);
 
 module.exports = router;

@@ -50,7 +50,10 @@ const userController = {
         // MongoDB methods for creating are .insertOne() or .insertmany(), but in Mongoose, we use .create() for both 
         User.create(body)
         .then(dbUserData => res.json(dbUserData))
-        .catch(err => res.json(err));
+        .catch(err => {
+            console.log(err);
+            res.status(400).json(err);
+        });
     },
 
     // update pizza by id
