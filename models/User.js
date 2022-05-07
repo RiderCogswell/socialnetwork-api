@@ -1,9 +1,6 @@
 const { Schema, model } = require('mongoose');
 const dateFormat = require('../utils/dateFormat');
-const validateEmail = function(email) {
-    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    return regex.test(email)
-}
+const validateEmail = require('../utils/validateEmail');
 
 // since we are using NoSQL, we don't have to define the fields, but for clarity and usability we should regulate what the data will look like
 const UserSchema = new Schema({
@@ -53,10 +50,9 @@ const UserSchema = new Schema({
 }
 );
 
-// get total count of comments and replies on retrieval 
+// get total count of friends on retrieval 
 UserSchema.virtual('friendCount').get(function() {
-    // reduce takes two params, an (accumalator, currentValue), revising the total as it gains more information (similar to .map() fuunction in the way that)
-    return this.friends.reduce((total, friend) => total + friend.length + 1, 0)
+    return this.friends.length
 })
 
 // create the pizza model using the pizza schema

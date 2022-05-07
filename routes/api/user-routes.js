@@ -4,29 +4,27 @@ const {
     getUserById,
     createUser,
     updateUser, 
-    deleteUser
+    deleteUser,
+    addFriend,
+    deleteFriend
 } = require('../../controllers/user-controller');
 
-
-
-// set up GET all and POST at /api/pizzas
+// set up GET all and POST at /api/users
 router
     .route('/')
     .get(getAllUsers)
     .post(createUser);
 
-// set up GET one, PUT, and DELETE at /api/pizza/:id
+// set up GET one, PUT, and DELETE at /api/users/:id
 router
-    .route('/:userid')
+    .route('/:id')
     .get(getUserById)
     .put(updateUser)
     .delete(deleteUser);
 
-module.exports = router;
+router
+    .route('/:userId/friends/:friendId')
+    .post(addFriend)
+    .delete(deleteFriend);
 
-// // this code
-// router.route('/').get(getCallbackFunction).post(postCallbackFunction);
-
-// // is this same as this
-// router.get('/', getCallbackFunction);
-// router.post('/', postCallbackFunction);
+module.exports = router

@@ -34,7 +34,7 @@ const ReactionSchema = new Schema (
 
 const ThoughtSchema = new Schema (
     {
-        writtenBy: {
+        username: {
             type: String,
             required: 'Please enter an author name!',
             trim: true
@@ -42,6 +42,8 @@ const ThoughtSchema = new Schema (
         thoughtBody: {
             type: String,
             required: 'No input!',
+            minlength: 1,
+            maxlength: 280,
             trim: true
         },
         createdAt: {
