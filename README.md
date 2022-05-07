@@ -13,7 +13,7 @@
 
   ## Link
    
-   https://youtu.be/6p0D8ogK2m4 (Links to an external site.)
+   https://youtu.be/6p0D8ogK2m4
 
   ## Installation
   Please make sure you have Node.js, Express, and Mongoose installed on your machine!
